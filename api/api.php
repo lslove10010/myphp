@@ -20,13 +20,14 @@ define('MAC_COMM', __DIR__.'/application/common/common/');
 define('MAC_HOME_COMM', __DIR__.'/application/index/common/');
 define('MAC_ADMIN_COMM', __DIR__.'/application/admin/common/');
 define('MAC_START_TIME', microtime(true) );
-define('BIND_MODULE','index');
-define('ENTRANCE', 'index');
+define('BIND_MODULE','api');
+define('ENTRANCE', 'api');
 $in_file = rtrim($_SERVER['SCRIPT_NAME'],'/');
 if(substr($in_file,strlen($in_file)-4)!=='.php'){
     $in_file = substr($in_file,0,strpos($in_file,'.php')) .'.php';
 }
 define('IN_FILE',$in_file);
+
 if(!is_file('./application/data/install/install.lock')) {
     header("Location: ./install.php");
     exit;
@@ -34,7 +35,7 @@ if(!is_file('./application/data/install/install.lock')) {
 if (!@mb_check_encoding($_SERVER['PATH_INFO'], 'utf-8')){
     $_SERVER['PATH_INFO']=@mb_convert_encoding($_SERVER['PATH_INFO'], 'UTF-8', 'GBK');
 }
-
 // 加载框架引导文件
 require __DIR__ . '/thinkphp/start.php';
+
 

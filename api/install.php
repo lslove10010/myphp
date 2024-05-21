@@ -20,21 +20,22 @@ define('MAC_COMM', __DIR__.'/application/common/common/');
 define('MAC_HOME_COMM', __DIR__.'/application/index/common/');
 define('MAC_ADMIN_COMM', __DIR__.'/application/admin/common/');
 define('MAC_START_TIME', microtime(true) );
-define('BIND_MODULE','index');
-define('ENTRANCE', 'index');
+define('BIND_MODULE', 'install');
+define('ENTRANCE', 'install');
 $in_file = rtrim($_SERVER['SCRIPT_NAME'],'/');
 if(substr($in_file,strlen($in_file)-4)!=='.php'){
     $in_file = substr($in_file,0,strpos($in_file,'.php')) .'.php';
 }
 define('IN_FILE',$in_file);
-if(!is_file('./application/data/install/install.lock')) {
-    header("Location: ./install.php");
-    exit;
+if(is_file('./application/data/install/install.lock')) {
+	echo '如需重新安装请删除【To re install, please remove】 >>> /application/data/install/install.lock';
+	exit;
 }
-if (!@mb_check_encoding($_SERVER['PATH_INFO'], 'utf-8')){
-    $_SERVER['PATH_INFO']=@mb_convert_encoding($_SERVER['PATH_INFO'], 'UTF-8', 'GBK');
+
+if(!is_writable('./runtime')) {
+	echo '请开启[runtime]目录的读写权限【Please turn on the read and write permissions of the [runtime] folder】';
+	exit;
 }
 
 // 加载框架引导文件
 require __DIR__ . '/thinkphp/start.php';
-
